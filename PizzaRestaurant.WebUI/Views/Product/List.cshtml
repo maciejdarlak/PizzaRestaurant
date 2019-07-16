@@ -1,0 +1,23 @@
+﻿@model PizzaRestaurant.WebUI.Models.ProductsListViewModel
+
+
+<!--Obiekt Viewbag przenosi treści z kontrolera do widoku oraz opisuje sie nim tytuły nagłówków jak niżej-->
+@{ 
+    ViewBag.Title = "Produkty";
+}
+
+<!--Wylistowanie każdego produktu-->
+@foreach (var p in Model.Products)
+{
+<div>
+    <!--Nagłówki-->
+    <h3>@p.Name</h3>
+    @p.Description
+    <!--Nagłówki-->
+    <!--Poniżej "c" - wartość waluty-->
+    <h4>@p.Price.ToString("c")</h4>
+</div>
+}
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+</div>
