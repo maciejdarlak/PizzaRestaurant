@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 
 
+
 //Informacja o stronach + ile stron potrzebujemy w ogóle (mając tutaj np. 4 produkty na stronę dla 23 produktów potrzeba 6 stron)
 namespace PizzaRestaurant.WebUI.Models
 {

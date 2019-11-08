@@ -1,0 +1,52 @@
+﻿<!--Widok listy administracyjnej-->
+@model IEnumerable<PizzaRestaurant.Domain.Entities.Product>
+
+
+
+@{
+    ViewBag.Title = "Administration: all products";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <!--Klasa "panel-heading" dodaje nagłówek do panelu-->
+    <div class="panel-heading">
+        <h3>All products</h3>
+    </div>
+    <!--Ciało-->
+    <div class="panel-body">
+        <!--"table-striped" służy do dodawania pasków zebry do dowolnego wiersza tabeli w <tbody>.-->
+        <!--".table-bordered" służy do obramowania ze wszystkich stron tabeli i komórek.-->
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th class="NumericCol">Price</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@Html.ActionLink(item.Name, "Edit", new { item.ProductID })</td>
+                    <td class="NumericCol">@item.Price.ToString("c")</td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Admin"))
+                        {
+                            @Html.Hidden("ProductID", item.ProductID)
+                            <!--<Input type = "Submit"> definiuje przycisk przesyłania, który przesyła wszystkie wartości formularza do modułu obsługi formularzy.
+                                Moduł obsługi formularzy jest zazwyczaj stroną serwera ze skryptem do przetwarzania danych wejściowych.
+                                Procedura obsługi formularza jest określona w atrybucie akcji formularza.-->
+                            <input type="submit" value="Delete" />
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <!--Klasa "panel-footer" dodaje stopkę do panelu-->
+    <div class="panel-footer">
+        @Html.ActionLink("Add a new product", "Create", null,
+        new { @class = "btn btn-default" })
+    </div>
+</div>

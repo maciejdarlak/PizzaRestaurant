@@ -1,0 +1,25 @@
+﻿<!--Jest to widok częściowy z kontrolera "Nav"-->
+@model IEnumerable<string>
+
+
+
+@Html.ActionLink("Home", "List", "Product", null,         //Link dla przycisku strony głownej "Home".
+    new { @class = "btn btn-block btn-default btn-lg" })  <!--"btn-block" - zajmowaniee całej szerokości elementu w którym jest on zawarty-->
+                                                          <!-- "btn-lg" zwiększa rozmiar przycisku-->
+
+@foreach (var link in Model)
+{
+    @Html.RouteLink(link,  //Metoda podobna do "Html.ActionLink". Róznica - pozwala na podanie pary nazwa-wartość. 
+    new {
+        controller = "Product",
+        action = "List",
+        category = link,
+        page = 1
+    },
+    new { @class = "btn btn-block btn-default btn-lg" //Przypisanie tych samych stylow jak wyżej
+    + (link == ViewBag.SelectedCategory ? "btn-primary" : "")  //Przypisanie do"link" zaznaczenia, jeśli takie nastapiło (tj. kliknięcie myszą na daną kategorię(?))
+    })  
+}
+
+@Html.ActionLink("Contact", "Address", "Contact", null,
+    new { @class = "btn btn-block btn-default btn-lg" })

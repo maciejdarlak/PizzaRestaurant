@@ -9,9 +9,11 @@ using PizzaRestaurant.Domain.Entities;
 
 namespace PizzaRestaurant.Domain.Abstract
 {
-    //Dostęp do bazy danych 
+    //Za pomocą "Ninject" podłączamy się pod wybrana klasę, którą możemy wstrzyknąć w konstruktor innej klasy. To istota ID
     public interface IProductRepository
     {
         IEnumerable<Product> Products { get; }
-    }
+        void SaveProduct(Product product);
+        Product DeleteProduct(int productID);
+    }    
 }

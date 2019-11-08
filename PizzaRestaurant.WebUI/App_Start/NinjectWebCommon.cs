@@ -32,11 +32,9 @@ namespace PizzaRestaurant.WebUI.App_Start
         {
             bootstrapper.ShutDown();
         }
-        
-        /// <summary>
-        /// Creates the kernel that will manage your application.
-        /// </summary>
-        /// <returns>The created kernel.</returns>
+
+        /// Poni¿ej tworzymy egzemplarz obiektu kernel Ninject, pozwalaj¹cego na rozwi¹zywanie zale¿noœci i tworzenie nowych obiektów.
+        /// Kiedy potrzebny jest nowy obiekt, do jego utworzenia bêdziemy u¿ywaæ Ninject, a nie s³owa kluczowego new.
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -51,7 +49,6 @@ namespace PizzaRestaurant.WebUI.App_Start
         /// Load your modules or register your services here!
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        /// 
 
         //Utworzenie pomostu miêdzy klas¹ NinjectDependencyResolver i oferowan¹ przez platformê MVC obs³ug¹ mechanizmu wstrzykiwania zale¿noœci
         private static void RegisterServices(IKernel kernel)

@@ -1,0 +1,47 @@
+﻿<!--Kontakt + mapa lokalizacji-->
+
+
+
+@model PizzaRestaurant.Domain.Entities.ContactDetails
+
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    <strong>
+        @Model.CompanyName
+    </strong>
+</h2>
+
+<h3>
+    <p>@Model.Street  @Model.StreetNumber</p>
+    <p>@Model.Postcode  @Model.City</p>
+    <p>@Model.PhoneNumber</p>
+    <p>
+        <a href="http://maciej.darlak@gmail.com/">
+            @Model.Mail
+        </a>
+    </p>
+</h3>
+
+<h3>
+    <p>
+        <address>
+            <a href="https://www.google.pl/maps/place/Strońska+2,+50-538+Wrocław" target="_blank">
+                LINK TO OUR LOCATION (GOOGLE MAPS)
+            </a>
+        </address>
+    </p>
+</h3>
+
+<img src="@Url.Content("~/Content/Images/Map.jpg")" alt="Lokalization Map" width="1000" height="700">
+
+
+
+
+
+
+
+

@@ -1,0 +1,42 @@
+﻿@model PizzaRestaurant.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "Pizza Restaurant: Shipment";
+}
+
+<h2>Shipment</h2>
+<p>Please enter your details and our hot and delicious pizza is coming to you.</p>
+
+@using (Html.BeginForm())
+{
+    //Komunikaty o błędach źle wypełnionych formularzy.
+    @Html.ValidationSummary()
+    <h3>Shipment for:</h3>
+    <!--Dzięki ".form-group" i ".form-control" (ustawia szerokość tekstu i jego boxa, obramowanie, kolory, wypełnienie itd.) 
+        mamy formularz w którym kolejne jego elementy układają się pod sobą-->
+    <div class="form-group">
+        <!--"Label" - Etykieta kontrolki formularza-->
+        <label>Name:</label>
+        <!--Zaletą "Html.TextBoxFor" nowszych silnie typowanych rozszerzeń jest wyświetlanie wszelkich błędów / ostrzeżeń w czasie kompilacji, a nie w czasie wykonywania.-->
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        <!--Poniżej formularze poza nazwiskiem i opakowaniem-->
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <!--I znowu na starcie "form-group" a na końcu "form-control"-->
+    <div class="form-group">
+        <!--"DisplayName" - wyświetlana nazwa wartości tego modelu-->
+        <label>@(property.DisplayName ?? property.PropertyName)</label>
+        <!--"Html.TextBox" - służy do generowania pola tekstowego (elementu <input>) z odpowiednimi wartościami i znacznikami, aby można go było użyć w formularzu.-->
+        @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+    </div>
+        }
+    }
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Finish the order" />
+    </div>
+}

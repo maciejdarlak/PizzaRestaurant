@@ -1,0 +1,23 @@
+﻿<!--Widok podsumowania w prawym górnym rogu-->
+@model PizzaRestaurant.Domain.Entities.Cart
+
+
+
+<!--Współrzędne pozycji-->
+<div class="navbar-right">
+    <!--"Html.ActionLink" zwraca link-->
+    @Html.ActionLink("Order", "Index", "Cart",
+    //Możliwośc powrotu
+    new { returUrl = Request.Url.PathAndQuery },
+    //Styl
+    new {  @class = "btn btn-default navbar-btn"})  
+</div>
+
+<div class="navbar-text navbar-right">
+    <!--Współrzędne pozycji-->
+    <b>Your cart:</b>
+    <!--Sumowanie sztuk-->
+    @Model.Lines.Sum(x => x.Quantity) pieces
+    <!--Sumowanie kwoty-->
+    @Model.ComputeTotalValue().ToString("c")
+</div>

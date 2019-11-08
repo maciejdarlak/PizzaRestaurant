@@ -1,16 +1,42 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <!--Właściwości-->
-    <meta charset="utf-8" />
+    <!--Część "head" nie jest wyświetlana-->
+    <meta charset="utf-8" />  <!--Właściwości-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Tytuł-->
-    <title>@ViewBag.Title </title>
+
+    <!--Poniżej dwa wiersze dające styl całemu layout-->
+    <!-- "href="~/Content/bootstrap.css"" - główna struktura css (siatki, podstawowe style itp.)-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <!--"href="~/Content/bootstrap-theme.css""rozszerzona stylizacja (przyciski 3D, gradienty itp.).
+        Ten plik jest opcjonalny i wcale nie wpływa na funkcjonalność bootstrapu, tylko poprawia wygląd-->
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <!--style CSS przeznaczone dla klas używanych w podsumowaniu kontroli poprawności formularza zamówienia "Checkout".-->
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet"
+    <title>@ViewBag.Title</title>
 </head>
+
 <body>
-    <div>
-        <!--W miejsce RenderBody, zostanie zatem umieszczona konkretna treść, specyficzna dla danej strony - layout bez zmian a tu zawsze cos innego-->
-        @RenderBody()
+    <!--Poniżej nagłówek strony-->
+    <div class="navbar navbar-inverse" role="navigation">
+        <!--dodanie do "navbar" klasy "navbar-inverse - tworzy odwrócony pasek nawigacyjny z czarnym tłem i białym tekstem-->
+        <!--"navbar-brand" powiększa nieco tekst,   " href="#" " to link-->
+        <a class="navbar-brand" href="#">Pizza Restaurant</a>
+        <!--"Html.Action" - skrót do metody akcji w danym kontrolerze, tu "Summary" w "Cart" (każda metoda w kontrolerze to metoda akcji).-->
+        @Html.Action("Summary", "Cart")
+    </div>
+
+    <!--Poniżej kolumna z lewej-->
+    <div class="row panel">
+        <div id="categories" class="col-xs-3">
+            <!--xs = dodatkowe małe ekrany - telefony komórkowe-->
+            @Html.Action("Menu", "Nav")
+        </div>
+        <div class="col-xs-8">
+            <!--xs = dodatkowe małe ekrany - telefony komórkowe-->
+            <!--W miejsce RenderBody, zostanie zatem umieszczona konkretna zmienna treść (tu w przyszłości STALE WYŚWIETLANE kategorie: rodzaje pizzy itd.)), specyficzna dla danej strony - layout bez zmian a tu zawsze cos innego-->
+            @RenderBody()
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,33 @@
+﻿<!--Layout strony administracyjnej-->
+@{
+    Layout = null;
+}
+
+<!--"<!DOCTYPE html>" - jest instrukcją dla przeglądarki internetowej o tym, w jakiej wersji HTML jest zapisana strona.-->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!--Element <meta>rzutni zawiera instrukcje przeglądarki dotyczące kontrolowania wymiarów i skalowania strony.-->
+    <!--Dzięki poniższemu wierszowi strona zostanie rozciągnięta do 100% szerokości obszaru ekranu oraz pozostanie w skali 1:1 z możliwością skalowania.-->
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" />
+    <!--Pliki JavaScript do realizacji kontroli poprawności po stronie klienta-->
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <title></title>
+</head>
+<body>
+    <div>
+        @if (TempData["message"] != null)
+        {
+            <!--Info że zapisano zmiany jak w metodzie akcji "HttpPost Edit" w kontrolerze "AdminController"-->
+            <div class="glyphicon-alert alert-success">@TempData["message"]</div>
+        }
+        @RenderBody()
+    </div>
+</body>
+</html>

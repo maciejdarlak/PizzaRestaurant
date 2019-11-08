@@ -1,0 +1,48 @@
+﻿<!--Pojedyńczy produkt jako element powtarzalny robimy jako oddzielny widok-->
+@model PizzaRestaurant.Domain.Entities.Product
+
+
+
+<!--"well" - klasa dodaje obramowanie z szarym kolorem tła-->
+<div class="well">
+
+    <!--Wklejenie zdjęcia produktu-->
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right: 10px">
+            <img class="img-thumbnail" width="75" height="75"
+                 src="@Url.Action("GetImage", "Product", new { Model.ProductID })" />
+        </div>
+    }
+
+    <h3>
+        <!--Nagłówki-->
+        <!--wytłuszczenie tekstu-->
+        <strong>@Model.Name</strong>  
+        <!--"c" - wartość waluty-->
+        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>  
+    </h3>
+
+    <!--Specyfikacja przycisku "Dodaj" - ominięnięty dla dodatków-->
+    @if (Model.Category != "Extras")
+    {
+        <!--"Html.BeginForm" wysyła żądanie POST (od uzytkownika do serwera, GET - odwrotnie). Tu dodajemy konkretny produkt.-->
+        using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <!--Przesuwa napis w prawo.-->
+            <div class="pull-right">
+                <!--Wyświetli: <input type="hidden" name="ProductID" value="1"
+                "Html.Hidden" zwraca ukryty element wejściowy HTML dla każdej właściwości w obiekcie reprezentowanym przez określone wyrażenie.-->
+                @Html.HiddenFor(x => x.ProductID)
+                <!--wyświetli: <input type="hidden" name="returnUrl" value"/"
+                Zwraca ukryty element wejściowy, używając określonego pomocnika HTML, nazwy pola formularza i wartości.-->
+                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                <!--"submit" jest renderowany jako przycisk.-->  <!--"class="btn btn-success" - biały napis na zielonym tle-->
+                <input type="submit" class="btn btn-success" value="Add to cart" />
+            </div>
+        }
+    }
+
+    <!--"span" - objęcie kilku różnych elementów, które są wyświetlane w linii " -->
+    <span class="lead">@Model.Description</span>
+</div>
