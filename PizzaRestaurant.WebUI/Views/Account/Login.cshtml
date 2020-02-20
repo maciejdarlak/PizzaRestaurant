@@ -1,5 +1,5 @@
-﻿<!--Widok logowania jako admin-->
-<!--Klasa modelu-->
+﻿<!--Login view as admin-->
+<!--Model class-->
 @model PizzaRestaurant.WebUI.Models.LoginViewModel
 
 
@@ -8,34 +8,34 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!--Panel w bootstrapie to obramowane pudełko z dopełnieniem wokół jego zawartości-->
-<div class="panel">
-    <!--Klasa dodaje nagłówek do panelu-->
-    <div class="panel-heading">
-        <h3>Zaloguj się</h3>
-    </div>
-    <div class="panel-body">
-        <!--"Lead" - wyróżnienie akapitu-->
-        <p class="lead">Proszę się zalogować, aby uzyskać dostęp do obszaru administracyjnego:</p>
-        <!--Formularz-->
-        @using (Html.BeginForm())
-        {
-            <!--"Html.ValidationSummary()" - wyświetlanie błędów w podsumowaniu-->
-            @Html.ValidationSummary()
+<!--The bootstrap panel is a framed box with padding around its contents-->
+    <div class="panel">
+        <!--The class adds a header to the panel-->
+        <div class="panel-heading">
+            <h3>Zaloguj się</h3>
+        </div>
+        <div class="panel-body">
+            <!--"Lead" - paragraph highlight-->
+            <p class="lead">Proszę się zalogować, aby uzyskać dostęp do obszaru administracyjnego:</p>
+            <!--Form-->
+            @using (Html.BeginForm())
+            {
+                <!--"Html.ValidationSummary()" - displaying errors in the summary-->
+                @Html.ValidationSummary()
         <div class="form-group">
             <label>Nazwa użytkownika:</label>
-            <!--"Html.TextBoxFor" sprawdza błędy w czasie kompilacji.-->
-            <!--Elementy z klasy "form-control" mają szerokość 100%.-->
+            <!--"Html.TextBoxFor" checks for errors during compilation-->
+            <!--Elements of the "form-control" class are 100% wide.-->
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
         </div>
-            <div class="form-group">
-                <label>Hasło:</label>
-                <!--"Html.PasswordFor" - generuje pole wprowadzania hasła-->
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            </div>
-            <input type="submit" value="Zaloguj się" class="btn btn-primary" />
-        }
+        <div class="form-group">
+            <label>Hasło:</label>
+            <!--"Html.PasswordFor" - generates a password entry field-->
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+                <input type="submit" value="Zaloguj się" class="btn btn-primary" />
+            }
+        </div>
     </div>
-</div>
 
 

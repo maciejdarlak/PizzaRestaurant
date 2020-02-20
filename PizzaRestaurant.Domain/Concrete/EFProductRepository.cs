@@ -7,29 +7,29 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Wrota do bazy daty.
+//Gates to the date base
 namespace PizzaRestaurant.Domain.Concrete
 {
     public class EFProductRepository : IProductRepository
     {
-        //Tworzymy obiekt mający dostęp do całej bazy danych.
+        //Creating an object having access to the entire database.
         private EFDbContext context = new EFDbContext();
 
-        //Poniższe pobiera konkretne produkty.
+        //The following downloads specific products.
         public IEnumerable<Product> Products
         {
             get { return context.Products; }
         }
 
-        //Tworzenie nowego produktu lub zmienianie właściwości istniejącego.
+        //Creating a new product or changing existing properties.
         public void SaveProduct(Product product)
         {
-            //Nowy produkt.
+            //New product
             if (product.ProductID == 0)
             {
                 context.Products.Add(product);
             }
-            //Istniejący produkt.
+            //Existing product
             else
             {
                 Product dbEntry = context.Products.Find(product.ProductID);
@@ -44,7 +44,7 @@ namespace PizzaRestaurant.Domain.Concrete
                     dbEntry.ImageMimeType = product.ImageMimeType;
                 }
             }
-            //Zapisywanie zmian w zasadniczej bazie danych.
+            //Saving changes to the main database
             context.SaveChanges();
             }
 

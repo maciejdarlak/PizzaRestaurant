@@ -6,13 +6,13 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Implementacja interfejsu "IOrderProcessor" będzie przetwarzała zamówienia przez ich przesłanie pocztą elektroniczną do administratora witryny.
-//Plik zawiera dwie klasy: 1."EmailSettings" (dane mailowe) oraz 2."EmailOrderProcessor" - w jej konstruktorze dodajemy 1."EmailSettings" oraz implementujemy interface "IOrderProcessor" 
-//(koszyk i szczegóły zamówienia z innymi danymi). 
-//W "EmailOrderProcessor" następuje sklejenie powyższego w całość, czyli ZAMÓWIENIE.
+// The implementation of the "IOrderProcessor" interface will process orders by sending them via email to the site administrator.
+// The file contains two classes: 1. "EmailSettings" (email data) and 2. "EmailOrderProcessor" - in its constructor added 1. "EmailSettings" and implement the interface "IOrderProcessor"
+// (cart and order details with other details).
+// In "EmailOrderProcessor" the above is glued together, that is ORDER.
 namespace PizzaRestaurant.Domain.Concrete
 {
-    //Obiekt tej klasy zawiera wszystkie ustawienia wymagane do skonfigurowania klas e-mail.NET i jest oczekiwany przez konstruktor EmailOrderProcessor.
+    //The object of this class contains all the settings required to configure e-mail.NET classes and is expected by the EmailOrderProcessor constructor
     public class EmailSettings
     {
         public string MailToAddress = "zamowienia@przyklad.pl";
@@ -30,8 +30,8 @@ namespace PizzaRestaurant.Domain.Concrete
     {
         private EmailSettings emailSettings;
 
-        //Obiekt "EmailSettings" (utworzony potem w "NinjectDepedencyResolver") wstrzykujemy do konstruktora "EmailOrderProcessor" w momencie tworzenia nowego egzemplarza 
-        //w odpowiedzi na żądanie interfejsu IOrderProcessor.
+        // The "EmailSettings" object (created later in "NinjectDepedencyResolver") is injected into the "EmailOrderProcessor" constructor 
+        //when creating a new instance in response to an IOrderProcessor interface request.
         public EmailOrderProcessor(EmailSettings settings)
         {
             emailSettings = settings;
@@ -39,7 +39,7 @@ namespace PizzaRestaurant.Domain.Concrete
 
         public void ProcessOrder(Cart cart, ShippingDetails shippingInfo)
         {
-            //Umożliwia aplikacji wysyłanie wiadomości e-mail przy użyciu transferu protokół SMTP (Simple Mail).
+            //Allows the app to send email using the SMTP (Simple Mail) transfer protocol.
             using (var smtpClient = new SmtpClient())
             {
                 smtpClient.EnableSsl = emailSettings.UseSsl;
@@ -47,14 +47,13 @@ namespace PizzaRestaurant.Domain.Concrete
                 smtpClient.Port = emailSettings.ServerPort;
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials
-                //Podaje poświadczenia dla schematów uwierzytelniania opartego na hasłach, np. basic, digest, NTLM oraz uwierzytelnianie Kerberos.
+                //Provides credentials for password-based authentication schemes, e.g. basic, digest, NTLM
                 = new NetworkCredential(emailSettings.Username, emailSettings.Password);
 
                 if (emailSettings.WriteAsFile)
                 {
-                    // Określa, jak wiadomości e-mail są dostarczane.
+                    //Specifies how email is delivered.
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    //Pobiera lub ustawia folderu oszczędzić wiadomości e-mail do przetworzenia przez lokalny serwer SMTP w aplikacji.
                     smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;
                     smtpClient.EnableSsl = false;
                 }
@@ -86,10 +85,10 @@ namespace PizzaRestaurant.Domain.Concrete
                 .AppendFormat("Pakowanie prezentu: {0}", shippingInfo.GiftWrap ? "Tak" : "Nie");
 
                 MailMessage mailMessage = new MailMessage(
-                emailSettings.MailFromAddress, // od
-                emailSettings.MailToAddress, // do
-                "Otrzymano nowe zamówienie!", // temat
-                body.ToString()); // treść
+                emailSettings.MailFromAddress, // from
+                emailSettings.MailToAddress, // to
+                "Otrzymano nowe zamówienie!", // subject
+                body.ToString()); // contents
 
                 if (emailSettings.WriteAsFile)
                 {

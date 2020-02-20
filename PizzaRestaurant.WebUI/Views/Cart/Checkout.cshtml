@@ -9,30 +9,30 @@
 
 @using (Html.BeginForm())
 {
-    //Komunikaty o błędach źle wypełnionych formularzy.
+    //Error messages for incorrectly completed forms
     @Html.ValidationSummary()
     <h3>Shipment for:</h3>
-    <!--Dzięki ".form-group" i ".form-control" (ustawia szerokość tekstu i jego boxa, obramowanie, kolory, wypełnienie itd.) 
-        mamy formularz w którym kolejne jego elementy układają się pod sobą-->
+    <!--Error messages for incorrectly filled forms. Thanks to ".form-group" and ".form-control" (sets the width of the text and its box, border, colors, filling, etc.)
+         there is a form in which its subsequent elements are arranged under each other-->
     <div class="form-group">
-        <!--"Label" - Etykieta kontrolki formularza-->
+        <!--"Label" - the form control label-->
         <label>Name:</label>
-        <!--Zaletą "Html.TextBoxFor" nowszych silnie typowanych rozszerzeń jest wyświetlanie wszelkich błędów / ostrzeżeń w czasie kompilacji, a nie w czasie wykonywania.-->
+        <!--The advantage of "Html.TextBoxFor" for newer strongly typed extensions is that they display any errors / warnings during compilation, not at runtime.-->
         @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
     </div>
 
     foreach (var property in ViewData.ModelMetadata.Properties)
     {
-        <!--Poniżej formularze poza nazwiskiem i opakowaniem-->
+        <!--Forms below the name and packaging-->
         if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
         {
-            <!--I znowu na starcie "form-group" a na końcu "form-control"-->
-    <div class="form-group">
-        <!--"DisplayName" - wyświetlana nazwa wartości tego modelu-->
-        <label>@(property.DisplayName ?? property.PropertyName)</label>
-        <!--"Html.TextBox" - służy do generowania pola tekstowego (elementu <input>) z odpowiednimi wartościami i znacznikami, aby można go było użyć w formularzu.-->
-        @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
-    </div>
+            <!--And again at the start of "form-group" and finally "form-control"-->
+<div class="form-group">
+    <!--"DisplayName" - the display name of the value of this model-->
+    <label>@(property.DisplayName ?? property.PropertyName)</label>
+    <!--"Html.TextBox" - is used to generate a text field (<input> element) with appropriate values and tags so that it can be used in the form.-->
+    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+</div>
         }
     }
 

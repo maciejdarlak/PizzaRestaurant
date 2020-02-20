@@ -7,25 +7,25 @@ using System.Web.Routing;
 
 
 
-//Domyślne trasy - kolejność decyduje o pierszeństwie użycia (najpierw ten najwyżej, potem niższe)
+//Default routes - the order determines the priority of use (first highest, then lower)
 namespace PizzaRestaurant.WebUI
 {
     public class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");  //Mówi to silnikowi routingu, że nie będziemy przetwarzać tych żądań, które pasują do tego wzorca trasy
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");  //This tells the routing engine that we will not process requests that match this route pattern
 
             routes.MapRoute
                 (null, 
                 "", 
-                new { controller = "Product", action = "List", category = (string)null, page = 1 });  //"new{...}" typ anonimowy - może byc przypisany w przyszłości do innego typu, w tym do obiektu
+                new { controller = "Product", action = "List", category = (string)null, page = 1 });  //"new{...}" anonymous type - may be assigned in the future to another type, including the object
 
             routes.MapRoute
                 (null,
                 "Strona{page}",
                 new { controller = "Product", action = "List", category = (string)null },
-                new { page = @"\d+" });  //"\d" oznacza „cyfrę w zakresie 0-9”. "+" oznacza „1 lub więcej razy”. Więc "\d+" oznacza jedną lub więcej cyfr - jest to ograniczenie (akceptowane sa tylko liczby
+                new { page = @"\d+" });  //"\ d" means "a number in the range 0-9". "+" means "1 or more times". So "\ d +" means one or more digits - this is a restriction (only numbers are accepted
 
             routes.MapRoute
                 (null,
@@ -36,7 +36,7 @@ namespace PizzaRestaurant.WebUI
                 (null,
                 "{category}/Strona{page}",
                 new { controller = "Product", action = "List" },
-                new { page = @"\d+" });  //"\d" oznacza „cyfrę w zakresie 0-9”. "+" oznacza „1 lub więcej razy”. Więc "\d+" oznacza jedną lub więcej cyfr - jest to ograniczenie (akceptowane sa tylko liczby
+                new { page = @"\d+" });  //"\ d" means "a number between 0 and 9". "+" Means "1 or more times." So "\ d +" means one or more digits - this is a limit (only numbers exceed
 
             routes.MapRoute(null, "{controller}/{action}");
         }

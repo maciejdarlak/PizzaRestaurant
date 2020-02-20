@@ -36,28 +36,27 @@ namespace PizzaRestaurant.WebUI.Infrastructure
             return kernel.GetAll(serviceType);
         }
 
-        //Tu miejsce na konkretne powiązania.      
+        //Here is the place for specific connections     
         private void AddBindings()
         {
-            //Poniżej każdorazowe odwołanie sie do "IProductRepository" (a ma go konstruktor kontrolera klasy z tym interfejsem) daje podłączenie 
-            //do "EFProductRepository" a ten do bazy danych.
-            //Tworzymy egzemplarz klasy "EFProductRepository" w odpowiedzi na każde żądania udostępnienia interfejsu "IProductRepository".
+            // Below, each reference to "IProductRepository" (it has a class controller constructor with this interface) gives you a connection to "EFProductRepository" and this to the database.
+            // A copy of the "EFProductRepository" class is created in response to each request to provide access to the "IProductRepository" interface.
             kernel.Bind<IProductRepository>().To<EFProductRepository>();
 
-            //Tworzymy obiekt "EmailSettings", który wykorzystujemy w metodzie "Ninject" "WithConstructorArgument()"          
+            // An "EmailSettings" object is created, which is used in the "Ninject" method "WithConstructorArgument ()"        
             EmailSettings emailSettings = new EmailSettings
             {
-                //Formularz jest wypełniony lub nie (false).
-                //zdefiniowaliśmy wartość wyłącznie dla jednej właściwości "EmailSettings: WriteAsFile".
-                //Odczytujemy wartość tej właściwości za pomocą "ConfigurationManager.AppSettings", 
-                //która pozwala odwoływać się do ustawień aplikacji umieszczonych w pliku "Web.config"(tego w głównym katalogu projektu).
+                // The form is completed or not (false).
+                // The value has been defined only for one property "EmailSettings: WriteAsFile".
+                // The value of this property is read using "ConfigurationManager.AppSettings", which allows you to refer to the application settings located in the "Web.config" file 
+                //(the one in the main project directory).
                 WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
             };
-            //Obiekt "emailSettings" (utworzony powyżej) wstrzykujemy do konstruktora "EmailOrderProcessor" w momencie tworzenia nowego 
-            //egzemplarza w odpowiedzi na żądanie interfejsu "IOrderProcessor".
+            // The "emailSettings" object (created above) is injected into the "EmailOrderProcessor" constructor when creating a new one copy 
+            //in response to a "IOrderProcessor" interface request.
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", emailSettings);
 
-            //Tworzymy egzemplarz klasy "FormsAuthProvider" w odpowiedzi na każde żądania udostępnienia interfejsu "IAuthProvider".
+            // A copy of the "FormsAuthProvider" class is created in response to each request to provide access to the "IAuthProvider" interface.
             kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }

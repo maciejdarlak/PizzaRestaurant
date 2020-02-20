@@ -4,23 +4,21 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Ta klasa umożliwia utworzenie obiektu "Cart".
+// This class creates the object "Cart"
 namespace PizzaRestaurant.WebUI.Infrastructure.Binders
 {
-    class CartModelBinder : IModelBinder  //Interfejs IModelBinder definiuje jedną metodę: BindModel
+    class CartModelBinder : IModelBinder  // The IModelBinder interface defines one method: BindModel
     {
         private const string sessionKey = "Cart";
 
-        //"ControllerContext" zapewnia dostęp do wszystkich danych z klasy
-        //kontrolera, w tym informacje na temat żądania klienta.
-        //Posiada ona właściwość HttpContext, która z kolei zawiera właściwość Session, 
-        //pozwalającą nam odczytać i zmieniać dane sesji. 
-        //Obiekt Cart uzyskujemy przez odczyt wartości klucza z danych sesji, a jeżeli nie ma tam tego obiektu, tworzymy go.
-        //"ModelBindingContext" dostarcza danych na temat
-        //modelu obiektów, jakie budujemy, oraz zapewnia narzędzia ułatwiające to zadanie.
+        // "ControllerContext" provides access to all data from the controller class, including customer request information.
+        // It has the HttpContext property, which in turn contains the Session property that allows us to read and change session data.
+        // The Cart object is obtained by reading the key value from the session data, and if this object is not there, it must be created.
+        // "ModelBindingContext" provides data on the subject
+        // the object model we are building and provides tools to facilitate this task.
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)  
         {
-            // Pobranie obiektu Cart z sesji
+            // Get the Cart object from the session
             Cart cart = null;
 
             if (controllerContext.HttpContext.Session != null)
@@ -28,7 +26,7 @@ namespace PizzaRestaurant.WebUI.Infrastructure.Binders
                 cart = (Cart)controllerContext.HttpContext.Session[sessionKey];
             }
 
-            // Utworzenie obiektu Cart, jeżeli nie został znaleziony w danych sesji
+            // Create the Cart object if it was not found in the session data
             if (cart == null)
             {
                 cart = new Cart();
@@ -38,7 +36,7 @@ namespace PizzaRestaurant.WebUI.Infrastructure.Binders
                 }
             }
 
-            // Zwróć koszyk
+            // Return the cart
             return cart;
         }
     }

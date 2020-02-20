@@ -6,15 +6,15 @@ using System.Web;
 
 
 
-//Klasa zawiera wszystkie dane przesyłane z konrolera do widoku (zamiast wysyłania np. pojedyńczych VieBag i innych mamy wszystko w jednej klasie)
+// The class contains all data sent from the controller to the view (instead of sending e.g. single VieBags and others we have everything in one class)
 namespace PizzaRestaurant.WebUI.Models
 {
     public class ProductsListViewModel
     {
-        //Przeglądanie po kolei listy "Products"
+        // Browse the "Products" list in turn
         public IEnumerable<Product> Products { get; set; }  
         public PagingInfo PagingInfo { get; set; }
-        //Wybrana kategoria pizzy
+        // Selected pizza category
         public string CurrentCategory { get; set; }  
     }
 }

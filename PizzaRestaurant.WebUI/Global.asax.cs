@@ -10,9 +10,10 @@ using PizzaRestaurant.WebUI.Infrastructure.Binders;
 
 
 
-//Plik dot. min. zdarzeń sesji.
-//Plik Global.asax jest to opcjonalny plik zawierający kod, który odpowiada za reagowanie na zdarzenia zgłoszone z poziomu aplikacji i poziomu sesji takie jak start aplikacji, zakończenie sesji, itp. 
-//Plik ten jest opcjonalny, czyli nie musimy reagować na te zdarzenia, jeżeli nie chcemy.
+// The file applies to session events, among others.
+// The Global.asax file is an optional file containing code that is responsible for responding to events reported 
+// from the application level and session level such as application start, end of session, etc.
+// This file is optional
 namespace PizzaRestaurant.WebUI
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -21,8 +22,8 @@ namespace PizzaRestaurant.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //ŚLUB - tu informujemy platformę MVC, że przy tworzeniu obiektów Cart używana będzie nasza klasa CartModelBinder.
-            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());  //"typeof()" - przyjmuje nazwę typu.
+            //"WEDDING" - here the MVC platform is informed that the CartModelBinder class will be used when creating Cart objects
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());  //"typeof()" - takes the name of the type
         }
     }
 }

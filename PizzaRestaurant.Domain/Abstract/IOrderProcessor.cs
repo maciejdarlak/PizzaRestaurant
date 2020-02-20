@@ -8,7 +8,7 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Wszelkie info o stanie koszyka oraz zamówienia
+//Info on the state of the cart and the order
 namespace PizzaRestaurant.Domain.Abstract
 {
     public interface IOrderProcessor

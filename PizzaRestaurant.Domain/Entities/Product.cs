@@ -11,15 +11,14 @@ namespace PizzaRestaurant.Domain.Entities
 {
     public class Product
     {
-        //Poniższe metadane projektu uniemożliwiają wyświetlenie tej właściwości w widoku "Edit" (administracja).
+        //The following project metadata prevents this property from being displayed in the "Edit" (administration) view.
         [HiddenInput(DisplayValue =false)]
         public int ProductID { get; set; }
 
         [Required(ErrorMessage = "Please enter a product name.")]
         public string Name { get; set; }
 
-        //Atrybut "DataType" pozwala zdefiniować sposób prezentowania i edytowania wartości - tu umożliwiliśmy rozszerzenie o więcej 
-        //niż 1 linijka tekstu w widoku "Edit" (administracja).
+        // The "DataType" attribute allows you to define how to present and edit the value - here it is possible to extend it by more than 1 line of text in the "Edit" view (administration).
         [DataType(DataType.MultilineText), Display(Name = "Description")]
         [Required(ErrorMessage = "Please add a description.")]
         public string Description { get; set; }
@@ -33,7 +32,7 @@ namespace PizzaRestaurant.Domain.Entities
         [Display(Name = "Category")]
         public string Category { get; set; }
 
-        //Poniżej nowe właściwości pomocne do przesyłania zdjęć pizzy
+        //New features below are helpful for sending pizza photos
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
     }

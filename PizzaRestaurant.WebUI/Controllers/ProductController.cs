@@ -9,31 +9,31 @@ using PizzaRestaurant.WebUI.Models;
 
 
 
-//Segregacja produktów do wyświetlenia
+//Product segregation to display
 namespace PizzaRestaurant.WebUI.Controllers
 {
     public class ProductController : Controller
     {
         private IProductRepository repository;
-        //Chcemy widziec na stronie 4 produkty
+        //4 products will be vissible on the page
         public int PageSize = 4;
 
-        //Konstruktor zależny od interfejsu (konkretny produkt czyli spełnienie kontraktu dla interfejsa)
+        //The constructor depends on the interface (specific product i.e. fulfillment of the contract for the interface)
         public ProductController(IProductRepository productRepository)
         {
             this.repository = productRepository;
         }
 
-        //ViewResult - Renderuje określony widok strumienia odpowiedzi - tu zwraca widok produktów z bieżącej i następnych stron (bez poprzednich).
-        //Na starcie wyświetlane sa wszystkie produkty, po wybraniu stron innej niż 1 poprzedzające wybrana są kasowane w metodzie "List()" 
-        //tu: "Skip((page - 1) * PageSize)".
+        // ViewResult - Renders the specified view of the response stream - returns product view from current and next pages (without previous ones)
+        // At the start all products are displayed, after selecting pages other than 1, the preceding ones are deleted in the "List ()" method
+        // here: "Skip ((page - 1) * PageSize)"
         public ViewResult List(string category, int page = 1)
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
-                //Pobranie, ułożenie, pominięcie wszystkich poprzednich stron, odczytanie reszty produktów + uzupełnienie PagingInfo + kategoria (wszystkie 3 parametry)
+                //Download, arrange, skip all previous pages, read the rest of the products + complete PagingInfo + category (all 3 parameters)
                 Products = repository.Products
-                //Dodatkowy filtr na kategorie, jak "null", zwraca wszystkie kategorie, przeciwnie - wybraną kategorię.
+                // An additional filter for categories, such as "null", returns all categories, on the contrary - the selected category.
                 .OrderBy(p => p.ProductID)
                 .Where(p => category == null || p.Category == category)  
                 .Skip((page - 1) * PageSize)
@@ -42,25 +42,25 @@ namespace PizzaRestaurant.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    //Jeśli "category" == null to 1, jak nie to 2.
+                    // If "category" == null is 1, if not then 2.
                     TotalItems = category == null ?  
                         repository.Products.Count() :  //1
                         repository.Products.Where(x => x.Category == category).Count()  //2
                 },
-                //Skutek dodania kolejnej właściwosci w pliku "ProductsListViewModel".
+                //The effect of adding another property in the "ProductsListViewModel" file.
                 CurrentCategory = category  
             };
             return View(model);
         }
 
-        //Pobranie zdjęcia (tu pizzy)
+        // Download photo (pizza here)
         public FileContentResult GetImage(int productId)
         {
             Product prod = repository.Products.FirstOrDefault(p => p.ProductID == productId);
             if (prod != null)
             {
-                //Jeżeli chcemy przesłać plik do przeglądarki klienta, metoda akcji powinna zwrócić obiekt typu "FileContentResult",
-                //a egzemplarze obiektu są tworzone za pomocą metody "File()" z bazowej klasy kontrolera.
+                // In case of transferring the file to the client browser, the action method should return an object of type "FileContentResult",
+                // and object instances are created using the "File ()" method from the base controller class.
                 return File(prod.ImageData, prod.ImageMimeType);
             }
             else

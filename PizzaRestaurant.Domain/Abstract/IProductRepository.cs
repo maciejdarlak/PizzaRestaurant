@@ -9,7 +9,7 @@ using PizzaRestaurant.Domain.Entities;
 
 namespace PizzaRestaurant.Domain.Abstract
 {
-    //Za pomocą "Ninject" podłączamy się pod wybrana klasę, którą możemy wstrzyknąć w konstruktor innej klasy. To istota ID
+    //Using "Ninject" you can connect to a selected class that can be injected into the constructor of another class. It's the essence of ID
     public interface IProductRepository
     {
         IEnumerable<Product> Products { get; }

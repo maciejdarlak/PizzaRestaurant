@@ -5,17 +5,17 @@ using System.Web;
 
 
 
-//Informacja o stronach + ile stron potrzebujemy w ogóle (mając tutaj np. 4 produkty na stronę dla 23 produktów potrzeba 6 stron)
+// Information about pages + how many pages are needed at all (for example, having 4 products per page for 23 products, 6 pages are needed)
 namespace PizzaRestaurant.WebUI.Models
 {
     public class PagingInfo
     {
-        //Info o ilości stron, ilości pozycji na stronę oraz aktualnej stronie
+        // Info about the number of pages, the number of items per page and the current page
         public int TotalItems { get; set; }
         public int ItemsPerPage { get; set; }
         public int CurrentPage { get; set; }
 
-        //Math.Ceiling() - zwraca najmniejszą wartość całkowitą, która jest większa niż lub równa podanej liczbie dziesiętnej.
+        // Math.Ceiling () - returns the smallest integer that is greater than or equal to the given decimal number.
         public int TotalPages
         {
             get { return (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage); }

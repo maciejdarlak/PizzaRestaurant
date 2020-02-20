@@ -8,12 +8,12 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Kontroler - metody administracyjne - część "RenderBody()" z "_AdminLayout".
+//Controller - administrative methods - part "RenderBody ()" of "_AdminLayout".
 namespace PizzaRestaurant.WebUI.Controllers
 {
-    //Poniżej filtr dostepności "Authorize".
-    //Gdy atrybut "Authorize" jest użyty bez żadnych parametrów, pozwala na dostęp do metod akcji kontrolera wyłącznie uwierzytelnionym użytkownikom.
-        [Authorize]
+    //Below is the "Authorize" availability filter.
+    //When the "Authorize" attribute is used without any parameters, it allows access to controller action methods only for authenticated users.
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductRepository repository;
@@ -29,9 +29,9 @@ namespace PizzaRestaurant.WebUI.Controllers
         }
 
 
-        //Edycja wybranego produktu.
-        //WAŻNE - widok "Edit" zawsze wysyła formularz do repozytorium (tym wierszem: " @using (Html.BeginForm("Edit", "Admin"))" - 
-        //link do metody [HttpPost] Edit"), a do tego widoku odwołują się metotody "Create" i "Edit".
+        //Edition of the selected product.
+        //IMPORTANT - the "Edit" view always sends the form to the repository (in this line: "@using (Html.BeginForm (" Edit "," Admin "))" - 
+        //a link to the method [HttpPost] Edit "), and this view is referred to "Create" and "Edit" methods.
         public ViewResult Edit(int productID)
         {
             Product product = repository.Products.FirstOrDefault(p => p.ProductID == productID);
@@ -39,50 +39,50 @@ namespace PizzaRestaurant.WebUI.Controllers
         }
 
 
-        //Wywołanie widoku w momencie wciśnięcia klawisza "Zapisz" w widoku "Edit".
-        //"HttpPostedFileBase" - dzięki tej klasie dane przesłanego pliku platforma MVC przekaże metodzie akcji.
+        //Calling the view when the "Save" key is pressed in the "Edit" view.
+        //"HttpPostedFileBase" - thanks to this class, the data of the transferred file, the MVC platform will pass on to the action method.
         [HttpPost]
         public ActionResult Edit(Product product, HttpPostedFileBase image = null)
         {
-            //Upewniamy się, że łącznik modelu ma możliwość kontroli poprawności danych przesłanych przez użytkownika
+            //It was checked whether the model connector has the ability to check the correctness of data sent by the user
             if (ModelState.IsValid)
             {
                 if (image != null)
                 {
-                    //Pobranie właściwości klasy HttpPostedFileBase - formatu pliku.
+                    //Get properties of the HttpPostedFileBase class - file format
                     product.ImageMimeType = image.ContentType;
-                    //Pobranie właściwości klasy HttpPostedFileBase -  rozmiaru przekazanego pliku w bajtach.
+                    //Get the properties of the HttpPostedFileBase class - size of the transferred file in bytes
                     product.ImageData = new byte[image.ContentLength];
-                    //HttpPostedFileBase.InputStream wskazuje  przekazany plik.
+                    //HttpPostedFileBase.InputStream indicates the uploaded file.
                     image.InputStream.Read(product.ImageData, 0, image.ContentLength);
                 }
-                    //Zapisywanie w bazie danych
-                    repository.SaveProduct(product);
-                //Komunikat że zapisano, życie "TempData" trwa do momentu ukazania się komunikatu w widoku "Index"(zmiana widoku wykasowuje go).
-                //"VieBag" przekazuje info tylko miedzy kontrolerem a widokiem, tu przekierowujemy do kontrolera "Index", więc "TempData" jest lepszy.
+                //Saving to the database
+                repository.SaveProduct(product);
+                //The message that saved, the life of "TempData" lasts until the message appears in the "Index" view (changing the view deletes it).
+                //"ViewBag" only transfers information between the controller and the view, here it is redirected to the "Index" controller, so "TempData" is better.
                 TempData["message"] = string.Format("Zapisano {0} ",product.Name);
-                //Przekierowanie do metody akcji "Index"
+                //Redirecting to the "Index" action method
                 return RedirectToAction("Index");
             }
             else
-            //Błąd w wartościach danych
+            //Error in data values
             {
                 return View(product);
             }
         }
 
 
-        //Tworzenie nowego produktu. Całkowicie akceptowalne jest to, żeby metoda akcji korzystała z widoku, który zwykle jest skojarzony z innym widokiem.
-        //Wstrzykujemy nowy obiekt Product do widoku modelu, dzięki czemu widok Edit będzie miał puste pola.
-        //WAŻNE - widok "Edit" zawsze wysyła formularz do repozytorium (tym wierszem: " @using (Html.BeginForm("Edit", "Admin"))" - link do metody [HttpPost] Edit"), 
-        //a do tego widoku odwołują się metotody "Create" i "Edit".
+        // Create a new product. It is perfectly acceptable for the action method to use a view that is usually associated with another view.
+        // A new Product object has been injected into the model view so that the Edit view has empty fields.
+        // IMPORTANT - the "Edit" view always sends the form to the repository (in this line: "@using (Html.BeginForm (" Edit "," Admin "))" - link to the method [HttpPost] Edit "),
+        // and the "Create" and "Edit" methods refer to this view.
         public ViewResult Create()
         {
             return View("Edit", new Product());
         }
 
 
-        //Usuwanie produktu
+        //Product removal
         [HttpPost]
         public ActionResult Delete(int productID)
         {

@@ -1,40 +1,41 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <!--Część "head" nie jest wyświetlana-->
+    <!--The "head" part is not displayed-->
     <meta charset="utf-8" />  <!--Właściwości-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!--Poniżej dwa wiersze dające styl całemu layout-->
-    <!-- "href="~/Content/bootstrap.css"" - główna struktura css (siatki, podstawowe style itp.)-->
+    <!--Below are two lines that give style to the whole layout-->
+    <!-- "href="~/Content/bootstrap.css"" - main css structure (meshes, basic styles etc.)-->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <!--"href="~/Content/bootstrap-theme.css""rozszerzona stylizacja (przyciski 3D, gradienty itp.).
-        Ten plik jest opcjonalny i wcale nie wpływa na funkcjonalność bootstrapu, tylko poprawia wygląd-->
+    <!--"href =" ~ / Content / bootstrap-theme.css "" extended stylization (3D buttons, gradients, etc.).
+         This file is optional and does not affect the bootstrap functionality at all, it only enhances the look-->
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
-    <!--style CSS przeznaczone dla klas używanych w podsumowaniu kontroli poprawności formularza zamówienia "Checkout".-->
+    <!--CSS styles for classes used in the checkout summary of the "Checkout" order form.-->
     <link href="~/Content/ErrorStyles.css" rel="stylesheet"
     <title>@ViewBag.Title</title>
 </head>
 
 <body>
-    <!--Poniżej nagłówek strony-->
+    <!--Below the page header-->
     <div class="navbar navbar-inverse" role="navigation">
-        <!--dodanie do "navbar" klasy "navbar-inverse - tworzy odwrócony pasek nawigacyjny z czarnym tłem i białym tekstem-->
-        <!--"navbar-brand" powiększa nieco tekst,   " href="#" " to link-->
+        <!--Adding the "navbar-inverse" class to the "navbar" - creates an inverted navigation bar with a black background and white text-->
+        <!--"navbar-brand" enlarges the text a bit, "href =" # "" is the link-->
         <a class="navbar-brand" href="#">Pizza Restaurant</a>
-        <!--"Html.Action" - skrót do metody akcji w danym kontrolerze, tu "Summary" w "Cart" (każda metoda w kontrolerze to metoda akcji).-->
+        <!--"Html.Action" - shortcut to the action method in a given controller, here "Summary" in "Cart" (each method in the controller is an action method)-->
         @Html.Action("Summary", "Cart")
     </div>
 
-    <!--Poniżej kolumna z lewej-->
+    <!--Below the left column-->
     <div class="row panel">
         <div id="categories" class="col-xs-3">
-            <!--xs = dodatkowe małe ekrany - telefony komórkowe-->
+            <!--xs = additional small screens - mobile phones-->
             @Html.Action("Menu", "Nav")
         </div>
         <div class="col-xs-8">
-            <!--xs = dodatkowe małe ekrany - telefony komórkowe-->
-            <!--W miejsce RenderBody, zostanie zatem umieszczona konkretna zmienna treść (tu w przyszłości STALE WYŚWIETLANE kategorie: rodzaje pizzy itd.)), specyficzna dla danej strony - layout bez zmian a tu zawsze cos innego-->
+            <!--xs = additional small screens - mobile phones-->
+            <!--Instead of RenderBody, specific variable content will be placed (here, in the future, PERMANENTLY DISPLAYED categories: types of pizza, etc.),
+         site-specific - the layout is unchanged, and there is always something else-->
             @RenderBody()
         </div>
     </div>

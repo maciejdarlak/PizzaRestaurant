@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations;
 
 
 
-//Reprezentacja danych do wysyłki
+//Data representation for shipment
 namespace PizzaRestaurant.Domain.Entities
 {
     public class ShippingDetails
     {
-        //"[Required(ErrorMessage...] - atrybuty kontroli poprawności z przestrzeni nazw System.ComponentModel.DataAnnotations
+        //"[Required (ErrorMessage ...] - validation attributes from the System.ComponentModel.DataAnnotations namespace
         [Required(ErrorMessage = "Please enter last name.")]  
         public string Name { get; set; }
 

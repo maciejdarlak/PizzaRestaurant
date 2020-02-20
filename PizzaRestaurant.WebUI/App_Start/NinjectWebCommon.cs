@@ -33,8 +33,8 @@ namespace PizzaRestaurant.WebUI.App_Start
             bootstrapper.ShutDown();
         }
 
-        /// Poni¿ej tworzymy egzemplarz obiektu kernel Ninject, pozwalaj¹cego na rozwi¹zywanie zale¿noœci i tworzenie nowych obiektów.
-        /// Kiedy potrzebny jest nowy obiekt, do jego utworzenia bêdziemy u¿ywaæ Ninject, a nie s³owa kluczowego new.
+        /// A copy of the Ninject kernel object was created below that allows you to resolve dependencies and create new objects.
+        /// When a new object is needed, Ninject will be used to create it, not the new keyword.
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -50,7 +50,7 @@ namespace PizzaRestaurant.WebUI.App_Start
         /// </summary>
         /// <param name="kernel">The kernel.</param>
 
-        //Utworzenie pomostu miêdzy klas¹ NinjectDependencyResolver i oferowan¹ przez platformê MVC obs³ug¹ mechanizmu wstrzykiwania zale¿noœci
+        //Creating a bridge between the NinjectDependencyResolver class and the support for dependency injection mechanism offered by the MVC platform
         private static void RegisterServices(IKernel kernel)
         {
             System.Web.Mvc.DependencyResolver.SetResolver(new PizzaRestaurant.WebUI.Infrastructure.NinjectDepedencyResolver(kernel));

@@ -6,7 +6,7 @@ using PizzaRestaurant.Domain.Entities;
 
 
 
-//Model stwrzony na potrzeby widoku
+//Model created for the view
 namespace PizzaRestaurant.WebUI.Models
 {
     public class CartIndexViewModel

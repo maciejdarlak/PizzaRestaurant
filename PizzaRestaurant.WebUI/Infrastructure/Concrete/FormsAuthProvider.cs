@@ -3,7 +3,7 @@ using PizzaRestaurant.WebUI.Infrastructure.Abstract;
 
 
 
-//Sprawdzenie, czy login i hasło (parametry metody "Authenticate") są zgodne z prawdą (dopisek w pliku "Web.config")
+// Check if the login and password (parameters of the "Authenticate" method) are true (note in the "Web.config" file)
 namespace PizzaRestaurant.WebUI.Infrastructure.Concrete
 {
     public class FormsAuthProvider : IAuthProvider
@@ -12,14 +12,13 @@ namespace PizzaRestaurant.WebUI.Infrastructure.Concrete
         {
             bool result = FormsAuthentication.Authenticate(username, password);
 
-            //Jeśli powyższe jest prawdziwe ("true") to dodajemy ciacho.
+            // If the above is true ("true") then we add a cake.
             if (result)
             {
-                //Metoda "SetAuthCookie()" dodaje plik cookie do odpowiedzi dla przeglądarki, dzięki czemu użytkownik
-                //nie musi uwierzytelniać się przy każdym żądaniu.
+                // The "SetAuthCookie ()" method adds a cookie to the browser response so that the user does not have to authenticate with every request.
                 FormsAuthentication.SetAuthCookie(username, false);
             }
-            //Zwracamy "true".
+            // Returning "true"
             return result;
         }
     }

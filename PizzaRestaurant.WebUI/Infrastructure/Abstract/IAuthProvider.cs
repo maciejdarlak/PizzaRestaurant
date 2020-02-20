@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 
 
-//Proces uwierzytelniania, żeby być administratorem.
-//Wydzielamy metody statyczne z kontrolera (dot.logowania jako admin) bo testy jednostkowe nie akceptują tych metod.
-//Metoda "Authenicate()" pozwala sprawdzić dane uwierzytelniania podane przez użytkownika (login i hasło zawarte w pliku "Web.config" - w życiu robi się inaczej).
+// Authentication process to be an administrator.
+// Static methods are separated from the controller (for logging in as admin) because unit tests do not accept these methods.
+// The "Authenicate ()" method allows you to check the user credentials (username and password contained in the "Web.config" file - things get different in life).
 namespace PizzaRestaurant.WebUI.Infrastructure.Abstract
 {
     public interface IAuthProvider

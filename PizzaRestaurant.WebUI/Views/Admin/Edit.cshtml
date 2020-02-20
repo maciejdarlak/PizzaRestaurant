@@ -1,4 +1,4 @@
-﻿<!--Edytowanie właściwości wybranego produktu-->
+﻿<!--Editing the properties of the selected product-->
 @model PizzaRestaurant.Domain.Entities.Product
 
 @{
@@ -6,102 +6,103 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="panel">
-    <div class="panel-heading">
-        <h3>Edition @Model.Name</h3>
-    </div>
-    <!--"Html.BeginForm()" - czyli formularz.
-    Teraz formularz będzie zawsze przesyłany do metody akcji "Edit", bo cały widok zawiera się w nim (jego klamrach).
-    Czyli czy używamy "Create" czy "Edit" - wszystkie będą wysyłane do metody akcji "Edit" ("[HttpPost]"), czyli formularz będzie zawsze wysłany (zaktualizowany).
-    "FormMethod.Post" - żądanie typu POST.
-    Atrybut (tag "<form>") - "enctype" określa sposób kodowania danych formularza podczas przesyłania go na serwer (tylko dla metody = „post”).
-    Należy używać "multipart/form-data" gdy formularz zawiera jakiekolwiek <input type="file">elementy.
-    Bez atrybutu "enctype" przeglądarka prześle tylko nazwę pliku bez zawartości.-->
-    @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <!--class="panel-body" - atrybut klasy jest najczęściej używany do wskazywania klasy w arkuszu stylów-->
-    <div class="panel-body">
-        <!-- Metoda "HiddenFor()" wiąże określoną właściwość obiektu modelu z <input type = "hidden".
-    Automatycznie ustawia wartość właściwości modelu na ukryte pole i odwrotnie.-->
-        @Html.HiddenFor(m => m.ProductID)
-
-        <!--"ViewData.ModelMetadata.Properties" - bierze lub ustawia wartości właściwości po kolei-->
-        @foreach (var property in ViewData.ModelMetadata.Properties)
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Edition @Model.Name</h3>
+        </div>
+        <!-- "Html.BeginForm ()" - i.e. a form.
+    Now the form will always be sent to the "Edit" action method, because the whole view is contained in it (its braces).
+    So whether "Create" or "Edit" is used - they will all be sent to the "Edit" ("[HttpPost]") action method, in other words the form will always be sent (updated).
+    "FormMethod.Post" - POST request.
+    The attribute (tag "<form>") - "enctype" defines the method of encoding the form data when sending it to the server (only for method = "post").
+    Use "multipart / form-data" when the form contains any <input type="file"> elements.
+    Without the "enctype" attribute, the browser will only send the file name without the content .-->
+        @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            switch (property.PropertyName)
-            {
-                // Brak operacji dla poniższych 3 właściwości (wpisany "string" i nic więcej) - nie chcemy żeby były wyświetlane adminowi.
-                case "ProductID":
-                case "ImageData":
-                case "ImageMimeType":
-                    break;
-                //Gdy pojawi się właściwość inna, niż ta dla której nie napisana została instrukcja "case" wykona się kod z bloku "default".
-                default:
-                    <!--Formularz pionowy (domyślnie)-->
-                    <div class="form-group">
+            <!--class="panel-body" - the class attribute is most often used to indicate the class in the style sheet-->
+            <div class="panel-body">
+                <!-- The "HiddenFor ()" method associates a specific property of the model object with <input type = "hidden".
+            Automatically sets the value of the model property to the hidden field and vice versa.-->
+                @Html.HiddenFor(m => m.ProductID)
 
-                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+                <!--"ViewData.ModelMetadata.Properties" - takes or sets property values in turn-->
+                @foreach (var property in ViewData.ModelMetadata.Properties)
+                {
+                    switch (property.PropertyName)
+                    {
+                        // There are no operations for the following 3 properties ("string" entered and nothing more) - they should not be displayed to the admin
+                        case "ProductID":
+                        case "ImageData":
+                        case "ImageMimeType":
+                            break;
+                        //When a property other than the one for which the "case" statement was not written appears, the code from the "default" block will be executed.
+                        default:
+                            <!--Vertical form (default)-->
+                            <div class="form-group">
 
-                        @if (property.PropertyName == "Description")
-                        {
-                            <!--"Html.TextArea" - definiuje wielowierszową kontrolę wprowadzania tekstu (tu ustawiamy na 5 wierszy).-->
-                            @Html.TextArea(property.PropertyName, null,
-                            new { @class = "form-control", rows = 5 })
-                        }
+                                <label>@(property.DisplayName ?? property.PropertyName)</label>
 
-                        else
-                        {
-                            <!--"Html.TextBox" - renderuje zwykłe wprowadzanie tekstu do pola tekstowego-->
-                            @Html.TextBox(property.PropertyName, null,
-                            new { @class = "form-control" })
-                        }
+                                @if (property.PropertyName == "Description")
+                                {
+                                    <!--"Html.TextArea" - defines a multi-line text input control (here we set 5 lines)-->
+                                    @Html.TextArea(property.PropertyName, null,
+                                    new { @class = "form-control", rows = 5 })
+                                }
 
-                        <!--"ValidationMessage" - wyświetla komunikat (o niewypełnieniu formularza lub niepoprawnym wypełnieniu) dla pojedynczej właściwości modelu.-->
-                        @Html.ValidationMessage(property.PropertyName)
-                    </div>
-                    break;
-            }
-        }
+                                else
+                                {
+                                    <!--"Html.TextBox" - renders normal text entry into the text field-->
+                                    @Html.TextBox(property.PropertyName, null,
+                                    new { @class = "form-control" })
+                                }
 
-        <!--"div class="form-group"" - szerokość 100%-->
-                    <div class="form-group">
-                        <!--Ustawiając pozycję na względną , możesz dodać dodatkowe atrybuty pozycjonowania (góra, dół, lewo, prawo) . -->
-                        <div style="position:relative;">
-                            <label>Photo</label>
-                            <a class='btn' href='javascript:;'>
-                                Choose a file...
-                                <!--"opacity" nieprzezroczystość (0 - przeźroczyste, 1 - w ogóle nieprzeźroczyste-->
-                                <input type="file" name="Image" size="40"
-                                       style="position:absolute;z-index:2;top:0;
+                                <!--"ValidationMessage" - displays a message (that the form is missing or invalid) for a single model property-->
+                                @Html.ValidationMessage(property.PropertyName)
+                            </div>
+                            break;
+                    }
+                }
+
+                <!--"div class="form-group"" - width 100%-->
+                <div class="form-group">
+                    <!--By setting the position to relative, you can add additional positioning attributes (up, down, left, right) -->
+                    <div style="position:relative;">
+                        <label>Photo</label>
+                        <a class='btn' href='javascript:;'>
+                            Choose a file...
+                            <!--"opacity" opacity (0 - transparent, 1 - not transparent at all-->
+                            <input type="file" name="Image" size="40"
+                                   style="position:absolute;z-index:2;top:0;
                                             left:0;filter: alpha(opacity=0); opacity:0;
                                             background-color:transparent;color:transparent;"
-                                       onchange='$("#upload-file-info").html($(this).val());'>
-                            </a>
-                            <!--Tag "<span>" służy do grupowania elementów wbudowanych w dokumencie, sam w sobie nie wprowadza żadnych zmian wizualnych.-->
-                            <!--Atrybut klasy jest najczęściej używany do definiowania równych stylów (dla elementów o tej samej nazwie klasy).-->
-                            <!--Atrybut id określa unikalny identyfikator elementu HTML, jest najczęściej używany do wskazywania stylu w arkuszu stylów.-->
-                            <span class='label label-info' id="upload-file-info"></span>
-                        </div>
-                        @if (Model.ImageData == null)
-                        {
-                            <div class="form-control-static">No photo</div>
-                        }
-                        else
-                        {
-                            <img class="img-thumbnail" width="150" height="150"
-                                 src="@Url.Action("GetImage", "Product",
-                    new { Model.ProductID })" />
-                        }
+                                   onchange='$("#upload-file-info").html($(this).val());'>
+                        </a>
+                        <!-- The "<span> tag is used to group built-in elements in a document, it doesn't make any visual changes by itself-->
+                        <!-- The class attribute is most often used to define equal styles (for elements with the same class name)-->
+                        <!-- The id attribute specifies the unique identifier of the HTML element, it is most often used to indicate a style in a style sheet-->
+                        <span class='label label-info' id="upload-file-info"></span>
                     </div>
-    </div>
+                    @if (Model.ImageData == null)
+                    {
+                        <div class="form-control-static">No photo</div>
+                    }
+                    else
+                    {
+                        <img class="img-thumbnail" width="150" height="150"
+                             src="@Url.Action("GetImage", "Product",
+                    new { Model.ProductID })" />
+                    }
+                </div>
+            </div>
 
-        <!--Stopka panelu-->
-        <div class="panel-footer">
-            <!--"input" to tag, "type" i "value" to atrybuty(dodatkowe cechy), "submit" to zatwierdź.-->
-            <input type="submit" value="Save" class="btn btn-primary" />
-            @Html.ActionLink("Cancel and return to the list", "Index", null, new {
-            @class = "btn btn-default"
-            })
-        </div>
-    }
-</div>
+            <!--Panel footer-->
+    <div class="panel-footer">
+        <!--"input" is a tag, "type" and "value" are attributes (additional features), "submit" approve-->
+        <input type="submit" value="Save" class="btn btn-primary" />
+        @Html.ActionLink("Cancel and return to the list", "Index", null, new
+        {
+        @class = "btn btn-default"
+        })
+    </div>
+        }
+    </div>

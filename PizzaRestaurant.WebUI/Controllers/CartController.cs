@@ -9,10 +9,10 @@ using PizzaRestaurant.WebUI.Models;
 
 
 
-//Poniżej dodanie pojedyńczego produktu danej kategorii oraz usuniecie wszystkich produktów danej kategorii.
-//Każda czynność (dodania / usuwania produktu) jest jednorazowa, dlatego zawsze okrelamy jaki "productID" dodajemy + link powrotu na każdym z nich do widoku "List" 
-//(te same nazwy co w pliku pojedyńczego przycisku "productSummary").
-//Każda czynność zawiera się w stanie sesji, stąd przy każdym doawaniu/odejmowaniu jest "GetCart()" (odpowiada za dodanie stanu sesji).
+// Below, adding a single product of a given category and removing all products of a given category.
+// Each action (adding / removing a product) is one-off, so it is always determined what "productID" was added + a return link on each of them to the "List" view
+// (same names as in the single "productSummary" button file).
+// Each activity is contained in the session state, hence "GetCart ()" is added with each addition / subtraction (it is responsible for adding the session state).
 namespace PizzaRestaurant.WebUI.Controllers
 {
     public class CartController : Controller
@@ -26,69 +26,70 @@ namespace PizzaRestaurant.WebUI.Controllers
             orderProcessor = proc;
         }
 
-        //NP: CZY JEST PIZZA DIAVOLLA("productId")?
-        //"RedirectToRouteResult" reprezentuje wynik, który dokonuje przekierowania przy użyciu określonego słownika wartości trasy, 
-        //tu przy pomocy metody "RedirectToAction", która przekierowuje do innej akcji, tu do "Index".
+        // NP: IS PIZZA DIAVOLLA ("productId")?
+        // "RedirectToRouteResult" represents the result that redirects using the specified route value dictionary,
+        // here using the "RedirectToAction" method, which redirects to another action, here to "Index".
         public RedirectToRouteResult AddToCart (Cart cart, int productId, string returnUrl)  
         {
             Product product = repository.Products.
-            FirstOrDefault(p => p.ProductID == productId);  //SPRAWDZAMY CZY JEST DIAVOLLA czyli czy poszukiwany "productId" jest równy jakiemuś produktowi z naszej bazy danych.
+            FirstOrDefault(p => p.ProductID == productId);  //CHECKING IS DIAVOLLA or is the productId you are looking for equal to a product from our database
 
-            if (product != null)  //Jeśli produkt istnieje              
+            if (product != null)  //If the product exists          
             {
-                cart.AddItem(product, 1);  //DODAJEMY 1 DIAVOLLĘ                                                                                                                                           
+                cart.AddItem(product, 1);  //WE ADD 1 DIAVOLLA                                                                                                                                        
             }
-            return RedirectToAction("Index", new { returnUrl });  //Przekierowanie do innej akcji, tu do "Index".
+            return RedirectToAction("Index", new { returnUrl });  //Redirecting to another action, here to "Index".
         }
 
-        //NP: CZY JEST PIZZA DIAVOLLA ("productId")?
-        //"RedirectToRouteResult" reprezentuje wynik, który dokonuje przekierowania przy użyciu określonego słownika wartości trasy, 
-        //tu przy pomocy metody "RedirectToAction", która przekierowuje do innej akcji, tu do "Index".
+        // E.g: IS PIZZA DIAVOLLA ("productId")?
+        // "RedirectToRouteResult" represents the result that redirects using the specified route value dictionary,
+        // here using the "RedirectToAction" method, which redirects to another action, here to "Index".
         public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)  
         {
             Product product = repository.Products
-            .FirstOrDefault(p => p.ProductID == productId);  //SPRAWDZAMY CZY JEST DIAVOLLA czyli czy poszukiwany "productId" jest równy jakiemuś produktowi z naszej bazy danych.
+            .FirstOrDefault(p => p.ProductID == productId);  //CHECKING IS DIAVOLLA or is the productId you are looking for equal to a product from our database?
 
-            if (product != null)  //Jeśli produkt istnieje    
+            if (product != null)  //If the product exists      
             {
-                cart.RemoveLine(product);  //ODEJMUJEMY 1 DIAVOLLĘ
+                cart.RemoveLine(product);  //SUBSCRIPTION 1 DIAVOLLA
             }
-            return RedirectToAction("Index", new { returnUrl });  //Przekierowanie do innej akcji, tu do "Index".
+            return RedirectToAction("Index", new { returnUrl });  //Redirecting to another action, here to "Index".
         }
 
-        //Metoda akcji zwracająca widok "Index"
+        //Action method returning "Index" view
         public ViewResult Index(Cart cart, string returnUrl)
         {
-            return View(new CartIndexViewModel  //Czyli koszyk + ReturnUrl
+            return View(new CartIndexViewModel  //Cart + ReturnUrl
             {
                 Cart = cart,
-                ReturnUrl = returnUrl  //Ścieżka powrotna do widoku "List" dla danego produktu z parametru
+                ReturnUrl = returnUrl  //Return path to the "List" view for a given product from the parameter
             });
         }
 
-        //Metoda akcji dostarczjąca do widoku wszystkie informacje o koszyku (obiekt jest tworzony w "CartModelBinder" (ŚLUB) więc tu nie musimy go robić) - jest to "Twój koszyk: x sztuk, y zł"
+        //An action method that provides all the information about the cart to the view (the object is created in "CartModelBinder" so you don't have to do it here) - 
+        //it is "Your cart: x pieces, y PLN"
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
         }
 
-        //Metoda akcji dostarczjąca do widoku wszystkie informacje o danych do wysyłki, czyli obiekt klasy "ShippingDetails"
+        //Action method that provides all information about shipping data to the view, i.e. an object of the "ShippingDetails" class
         public ViewResult Checkout()
         {
             return View(new ShippingDetails());  
         }
 
-        //Metoda akcji - wysyłanie formularza zamówienia przez użytkownika (żądanie POST)
+        //Action method - sending the order form by the user (POST request)
         [HttpPost]
         public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
         {
-            //"Lines" - jeden produkt x ilość
+            //"Lines" - one product x quantity
             if (cart.Lines.Count() == 0)
             {
                 ModelState.AddModelError("", "Koszyk jest pusty!");
             }
-            //"ModelState.IsValid" wskazuje, czy możliwe było prawidłowe powiązanie wartości przychodzących z żądania do modelu i czy jakiekolwiek 
-            //jawnie określone reguły sprawdzania poprawności zostały złamane podczas procesu wiązania modelu.
+            //"ModelState.IsValid "indicates whether it was possible to correctly associate inbound values from the request to the model and whether any
+            //explicitly specified validation rules were broken during the model binding process.
             if (ModelState.IsValid)
             {
                 orderProcessor.ProcessOrder(cart, shippingDetails);

@@ -1,21 +1,21 @@
-﻿<!--To jest dopełnienie "Layout" w miejsce "RenderBody()"-->
+﻿<!--This is the "Layout" padding in place of "RenderBody ()"-->
 @model PizzaRestaurant.WebUI.Models.ProductsListViewModel
 
 
 
-<!--Obiekt "Viewbag" przenosi treści z kontrolera do widoku oraz opisuje się nim tytuły nagłówków jak niżej-->
+<!--The "Viewbag" object transfers content from the controller to the view and describes the title of the headings as follows-->
 @{
     ViewBag.Title = "Products";
 }
 
-<!--Wylistowanie każdego produktu-->
+<!--Listing each product-->
 @foreach (var p in Model.Products)
 {
     @Html.Partial("ProductSummary", p);
 }
 
-<!--Poniżej wyświetlana nawigacja stronami, czyli przyciski stron 1,2,3...n).
-    "Url.Action" - uzywa metody akcji "List" i ograniczników wg. nr strony i kategorii-->
+<!--Page navigation displayed below, i.e. page buttons 1,2,3 ... n).
+     "Url.Action" - uses the "List" action method and delimiters according to page number and category-->
 <div>
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
 </div>

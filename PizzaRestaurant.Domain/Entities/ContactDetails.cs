@@ -5,7 +5,7 @@ using System.Web;
 
 
 
-//Dane adresowe
+//Address data
 namespace PizzaRestaurant.Domain.Entities
 {
     public class ContactDetails

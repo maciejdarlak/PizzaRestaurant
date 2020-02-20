@@ -10,11 +10,11 @@ using System.Data.Entity;
 
 namespace PizzaRestaurant.Domain.Concrete
 {
-    //W klasie "DbContext" definiujemy właściwości dla każdej tabeli, z której chcemy skorzytać (tu właściwość "Products").
-    //"DbContext" ogólnie reprezentuje połączenie z bazą danych i zestaw tabel.
+    //In the "DbContext" class you define properties for each table (here the "Products" property).
+    //"DbContext" generally represents the database connection and table set.
     public class EFDbContext : DbContext
     {
-        //"DBSet" służy do reprezentowania jednej konkretnej tabeli bazy danych
+        //"DBSet" is used to represent one specific database table
         public DbSet<Product> Products  { get; set; }
     }
 }

@@ -1,24 +1,27 @@
-﻿<!--Jest to widok częściowy z kontrolera "Nav"-->
+﻿<!--This is a partial view of the "Nav" controller-->
 @model IEnumerable<string>
 
 
 
-@Html.ActionLink("Home", "List", "Product", null,         //Link dla przycisku strony głownej "Home".
-    new { @class = "btn btn-block btn-default btn-lg" })  <!--"btn-block" - zajmowaniee całej szerokości elementu w którym jest on zawarty-->
-                                                          <!-- "btn-lg" zwiększa rozmiar przycisku-->
+@Html.ActionLink("Home", "List", "Product", null,         //Link for home button.
+    new { @class = "btn btn-block btn-default btn-lg" })  <!--"btn-block" - occupying the entire width of the element in which it is included-->
+<!-- "btn-lg" zwiększa rozmiar przycisku-->
 
 @foreach (var link in Model)
 {
-    @Html.RouteLink(link,  //Metoda podobna do "Html.ActionLink". Róznica - pozwala na podanie pary nazwa-wartość. 
-    new {
-        controller = "Product",
+    @Html.RouteLink(link,  //A method similar to "Html.ActionLink". Difference - allows you to enter a name-value pair.
+    new
+        {
+            controller = "Product",
         action = "List",
         category = link,
         page = 1
     },
-    new { @class = "btn btn-block btn-default btn-lg" //Przypisanie tych samych stylow jak wyżej
-    + (link == ViewBag.SelectedCategory ? "btn-primary" : "")  //Przypisanie do"link" zaznaczenia, jeśli takie nastapiło (tj. kliknięcie myszą na daną kategorię(?))
-    })  
+    new
+        {
+            @class = "btn btn-block btn-default btn-lg" //Assign the same styles as above
+    + (link == ViewBag.SelectedCategory ? "btn-primary" : "")  //Assignment to the "link" of a selection, if any (ie a mouse click on the category)
+    })
 }
 
 @Html.ActionLink("Contact", "Address", "Contact", null,

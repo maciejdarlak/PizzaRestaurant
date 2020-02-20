@@ -9,7 +9,7 @@ using PizzaRestaurant.WebUI.Models;
 
 
 
-//Kontakt + mapa lokalizacji
+//Contact + map of location
 namespace PizzaRestaurant.WebUI.Controllers
 {
     public class ContactController : Controller

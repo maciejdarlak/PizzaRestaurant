@@ -5,62 +5,62 @@ using System.Web;
 
 
 
-//Koszyk zakupów - tu są podstawowe działania, nie w kontrolerze.
+//Shopping cart - here are the basic activities, not in the controller.
 namespace PizzaRestaurant.Domain.Entities
 {
     public class Cart
     {
-        //"lineCollection" - lista WSZYSTKICH produktów, "CartLine" - produkt x ilość
+        //"lineCollection" - list of ALL products, "CartLine" - product * quantity
         private List<CartLine> lineCollection = new List<CartLine>();
 
-        //Dodawanie  produktu x do zbioru z ID x (nawet jak jest pusty) 
-        //NP. CZY JEST PIZZA DIAVOLLA?
+        // Add product x to file with ID x (even if it's empty)
+        // NP. IS PIZZA DIAVOLLA?
         public void AddItem(Product product, int quantity) 
         {
-            //"Line" - pojedyńczy egzemplarz z ID zgodnym z parametru. Szukamy w liście produktu, którego ID jest zgodne z tym w parametrze.
-            //"FirstOrDefault()" pozwala wziąść z grupy tych samych ID (jak jest ich > 1) jeden egzemplarz który przypisujemy referencji "line". 
-            //SPRAWDZAMY CZY JEST DIAVOLLA.
+            // "Line" - a single copy with an ID consistent with the parameter. Search in the product list whose ID matches the one in the parameter.
+            // "FirstOrDefault ()" allows to take from the group of the same ID (as there are> 1) one copy which we assign the reference "line".
+            // CHECKING IS DIAVOLLA.
             CartLine line = lineCollection
-                //Znalezienie kategorii produktu zgodnego z tym z parametru (to samo ID) - DIAVOLLA DO DIAVOLLI.
+                //Finding a product category according to this parameter (same ID) - DIAVOLLA TO DIAVOLLA.
                 .Where(p => p.Product.ProductID == product.ProductID)
-                //Zwraca pierwszy element (z x ilości bo może być > 1 tego samego produktu) lub wartość domyślną jeżeli żaden element nie został odnaleziony
+                //Returns the first item (of x quantity because there may be > 1 of the same product) or the default value if no item was found
                 .FirstOrDefault();
 
-            //NIE MA DIAVOLLI
+            //THERE IS NO DIAVOLLA
             if (line == null)
-                //Dodanie obiektu "CartLine"
+                //Adding the "CartLine" object
                 lineCollection.Add(new CartLine { Product = product, Quantity = quantity });
-            //Jeśli jest to do ilości "line" dodajemy ilość z parametru JEST DIAVOLLA
+            //If it is, then to the "line" quantity we add the quantity from the parameter IS DIAVOLLA
             else
                 line.Quantity += quantity;
         }
 
-        //Odejmowanie listy wszystkich produktów
+        //Subtract list of all products
         public void RemoveLine(Product product)  
         {
             lineCollection.RemoveAll(l => l.Product.ProductID == product.ProductID);
         }
 
-        //Suma do zapłaty
+        //Amount to be paid
         public decimal ComputeTotalValue()  
         {
-            //Sumowanie listy dla każdego produktu  (jeden produkt = to co w nawiasie)
+            //Adding a list for each product (one product = what's in brackets)
             return lineCollection.Sum(e => e.Product.Price * e.Quantity);  
         }
 
-        //Czyszczenie zawartości koszyka
+        //Clearing the cart contents
         public void Clear()  
         {
             lineCollection.Clear();
         }
 
-        //Dostęp do zawartości koszyka - IEnumerable może po kolei przeglądać produkty
+        //Access to the contents of the cart - IEnumerable can view products in turn
         public IEnumerable<CartLine> Lines  
         {
             get { return lineCollection; }
         }
 
-        //Jeden produkt x ilość
+        //One product * quantity
         public class CartLine  
         {
             public Product Product { get; set; }

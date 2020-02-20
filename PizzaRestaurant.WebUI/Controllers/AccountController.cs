@@ -8,7 +8,7 @@ using PizzaRestaurant.WebUI.Models;
 
 
 
-//Kontroler do logowania na admina
+//Controller for login to admin
 namespace PizzaRestaurant.WebUI.Controllers
 {
     public class AccountController : Controller
@@ -20,23 +20,22 @@ namespace PizzaRestaurant.WebUI.Controllers
             authProvider = auth;
         }
 
-        //"ActionResult" to klasa abstrakcyjna, która reprezentuje wynik metody akcji
-        //Tu tylko wywołanie widoku "Login"
+        // "ActionResult" is an abstract class that represents the result of the action method - just calling the "Login" view
         public ActionResult Login()
         {
             return View();
         }
 
-        //Wysłanie formularza przez użytkownika
+        //User submitting the form
         [HttpPost]
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
-            //"ModelState.IsValid" wskazuje, czy możliwe było prawidłowe powiązanie wartości przychodzących z żądania do modelu i 
-            //czy jakiekolwiek jawnie określone reguły sprawdzania poprawności zostały złamane podczas procesu wiązania modelu.
+            //"ModelState.IsValid "indicates whether it was possible to correctly link inbound values from the request to the model and
+            //whether any explicitly specified validation rules were broken during the model binding process.
             if (ModelState.IsValid)
             {
-                //Poniższe parametry (każdy z osobna) są wzbogacone o metadane z klasy "LoginViewModel".
-                //Jeśli login i hasło jest ok to następuje przekierownie na listę edycyjną.
+                //The following parameters (each individually) are enriched with metadata from the "LoginViewModel" class.
+                //If the login and password are ok then you will be redirected to the editing list.
                 if (authProvider.Authenticate(model.UserName, model.Password))
                 {
                     return Redirect(returnUrl ?? Url.Action("Index", "Admin"));
