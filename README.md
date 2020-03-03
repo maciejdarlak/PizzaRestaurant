@@ -8,6 +8,5 @@
 ## Frameworks & Dependencies
 - Entity Framework Core
 - ASP.NET MVC 5
-- Razor Pages
 - Bootstrap
 - .NET tag helpers
